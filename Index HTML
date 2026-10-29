@@ -86,7 +86,7 @@
 
   /* HERO */
   .hero {
-    height: 100vh; display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden;
     background:
       radial-gradient(ellipse at 30% 50%, rgba(107,39,55,0.25) 0%, transparent 60%),
@@ -97,6 +97,7 @@
   .hero-content {
     text-align: center; z-index: 2;
     animation: fadeUp 1.2s ease-out;
+    padding: 2rem 1rem;
   }
 
   .hero-tag {
@@ -176,6 +177,7 @@
     position: absolute; border-radius: 50%;
     background: radial-gradient(circle, rgba(212,165,116,0.15), transparent);
     animation: floatAnim 6s ease-in-out infinite;
+    pointer-events: none;
   }
   .float-1 { width: 300px; height: 300px; top: 10%; left: -5%; animation-delay: 0s; }
   .float-2 { width: 200px; height: 200px; bottom: 20%; right: -3%; animation-delay: 2s; }
@@ -422,6 +424,7 @@
     display: flex; align-items: center; justify-content: center;
     font-family: 'Playfair Display', serif;
     color: var(--dark); font-weight: 700; font-size: 1.1rem;
+    flex-shrink: 0;
   }
   .test-name { font-size: 0.9rem; color: var(--cream); }
   .test-role { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 1px; }
@@ -534,6 +537,7 @@
     transition: all 0.4s; z-index: 3000;
     letter-spacing: 1px;
     box-shadow: 0 10px 30px rgba(212,165,116,0.3);
+    max-width: 90vw;
   }
   .notification.show { transform: translateY(0); opacity: 1; }
 
@@ -616,7 +620,7 @@
     <li><a href="#reviews">Reviews</a></li>
   </ul>
   <button class="nav-cta" onclick="scrollToMenu()">Order Now</button>
-  <button class="hamburger" onclick="toggleMobile()">
+  <button class="hamburger" onclick="toggleMobile()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -748,7 +752,6 @@
               <stop offset="100%" stop-color="#b8865a"/>
             </linearGradient>
           </defs>
-          <!-- Coffee bean -->
           <ellipse cx="20" cy="20" rx="10" ry="13" fill="url(#feat1)" opacity="0.9"/>
           <path d="M20 8 Q18 20 20 32" stroke="#1a1412" stroke-width="1.2" fill="none"/>
           <ellipse cx="20" cy="20" rx="10" ry="13" stroke="#d4a574" stroke-width="0.5" fill="none" opacity="0.5"/>
@@ -766,7 +769,6 @@
               <stop offset="100%" stop-color="#b8865a"/>
             </linearGradient>
           </defs>
-          <!-- Flame / roast -->
           <path d="M20 6 Q14 14 16 22 Q18 28 20 30 Q22 28 24 22 Q26 14 20 6 Z" fill="url(#feat2)" opacity="0.9"/>
           <path d="M20 14 Q17 18 18 24 Q19 27 20 28 Q21 27 22 24 Q23 18 20 14 Z" fill="#6b2737" opacity="0.6"/>
           <circle cx="20" cy="34" r="2" fill="#d4a574" opacity="0.5"/>
@@ -784,7 +786,6 @@
               <stop offset="100%" stop-color="#b8865a"/>
             </linearGradient>
           </defs>
-          <!-- Heart with leaf -->
           <path d="M20 32 Q8 22 8 14 Q8 8 14 8 Q18 8 20 12 Q22 8 26 8 Q32 8 32 14 Q32 22 20 32 Z" fill="url(#feat3)" opacity="0.9"/>
           <path d="M16 18 Q18 16 20 18 Q22 16 24 18" stroke="#1a1412" stroke-width="0.8" fill="none" opacity="0.6"/>
         </svg>
@@ -801,7 +802,6 @@
               <stop offset="100%" stop-color="#b8865a"/>
             </linearGradient>
           </defs>
-          <!-- Award ribbon -->
           <circle cx="20" cy="16" r="9" fill="url(#feat4)" opacity="0.9"/>
           <circle cx="20" cy="16" r="5" fill="#1a1412" opacity="0.3"/>
           <path d="M14 22 L12 34 L17 30 L20 34 L23 30 L28 34 L26 22" fill="url(#feat4)" opacity="0.7"/>
@@ -948,20 +948,14 @@
     if (type === 'espresso') {
       return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
         ${defs}
-        <!-- Saucer -->
         <ellipse cx="70" cy="105" rx="50" ry="6" fill="url(#cupG)" opacity="0.4"/>
         <ellipse cx="70" cy="103" rx="45" ry="4" fill="url(#cupG)" opacity="0.6"/>
-        <!-- Cup body -->
         <path d="M35 55 Q35 95 70 95 Q105 95 105 55 Z" fill="url(#cupG)"/>
         <path d="M35 55 Q35 95 70 95 Q105 95 105 55 Z" fill="none" stroke="#d4a574" stroke-width="0.8"/>
-        <!-- Handle -->
         <path d="M105 62 Q125 62 125 78 Q125 92 105 90" stroke="url(#cupG)" stroke-width="3" fill="none"/>
-        <!-- Coffee surface -->
         <ellipse cx="70" cy="55" rx="35" ry="8" fill="url(#coffeeG)"/>
         <ellipse cx="70" cy="54" rx="32" ry="6" fill="rgba(139,74,58,0.6)"/>
-        <!-- Crema highlight -->
         <ellipse cx="60" cy="52" rx="8" ry="2" fill="rgba(212,165,116,0.4)"/>
-        <!-- Steam -->
         <path d="M55 45 Q53 30 56 15" stroke="url(#cupG)" stroke-width="1.2" fill="none" opacity="0.5">
           <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2.5s" repeatCount="indefinite"/>
         </path>
@@ -979,14 +973,11 @@
         <ellipse cx="70" cy="110" rx="52" ry="6" fill="url(#cupG)" opacity="0.4"/>
         <path d="M25 55 Q25 100 70 100 Q115 100 115 55 Z" fill="url(#cupG)"/>
         <path d="M115 62 Q135 62 135 80 Q135 95 115 92" stroke="url(#cupG)" stroke-width="3" fill="none"/>
-        <!-- Foam top -->
         <ellipse cx="70" cy="55" rx="45" ry="10" fill="#f5e6d3"/>
         <ellipse cx="70" cy="53" rx="42" ry="8" fill="#faf3eb"/>
-        <!-- Latte art - rosetta -->
         <path d="M70 48 Q60 50 55 53 Q65 52 70 55 Q75 52 85 53 Q80 50 70 48 Z" fill="rgba(107,39,55,0.3)"/>
         <path d="M70 50 Q63 52 58 55 Q67 54 70 57 Q73 54 82 55 Q77 52 70 50 Z" fill="rgba(107,39,55,0.2)"/>
         <circle cx="70" cy="53" r="2" fill="rgba(107,39,55,0.4)"/>
-        <!-- Cocoa dust -->
         <circle cx="50" cy="50" r="0.8" fill="rgba(107,39,55,0.5)"/>
         <circle cx="85" cy="51" r="0.6" fill="rgba(107,39,55,0.4)"/>
         <circle cx="60" cy="56" r="0.5" fill="rgba(107,39,55,0.3)"/>
@@ -995,21 +986,15 @@
     if (type === 'coldbrew') {
       return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
         ${defs}
-        <!-- Glass -->
         <path d="M45 20 L50 115 Q50 120 55 120 L85 120 Q90 120 90 115 L95 20 Z" fill="url(#glassG)" stroke="url(#cupG)" stroke-width="1"/>
-        <!-- Coffee liquid -->
         <path d="M48 35 L52 115 Q52 118 55 118 L85 118 Q88 118 88 115 L92 35 Z" fill="url(#coffeeG)" opacity="0.85"/>
-        <!-- Ice cubes -->
         <rect x="55" y="45" width="12" height="12" rx="2" fill="rgba(245,230,211,0.3)" stroke="rgba(212,165,116,0.5)" stroke-width="0.5"/>
         <rect x="72" y="50" width="12" height="12" rx="2" fill="rgba(245,230,211,0.25)" stroke="rgba(212,165,116,0.5)" stroke-width="0.5"/>
         <rect x="60" y="70" width="12" height="12" rx="2" fill="rgba(245,230,211,0.2)" stroke="rgba(212,165,116,0.4)" stroke-width="0.5"/>
         <rect x="75" y="80" width="10" height="10" rx="2" fill="rgba(245,230,211,0.2)" stroke="rgba(212,165,116,0.4)" stroke-width="0.5"/>
-        <!-- Straw -->
         <line x1="70" y1="15" x2="72" y2="100" stroke="url(#cupG)" stroke-width="2"/>
         <line x1="70" y1="15" x2="65" y2="8" stroke="url(#cupG)" stroke-width="2"/>
-        <!-- Glass rim -->
         <ellipse cx="70" cy="20" rx="25" ry="4" fill="none" stroke="url(#cupG)" stroke-width="1"/>
-        <!-- Condensation -->
         <circle cx="50" cy="60" r="1" fill="rgba(245,230,211,0.4)"/>
         <circle cx="90" cy="75" r="0.8" fill="rgba(245,230,211,0.3)"/>
         <circle cx="48" cy="90" r="0.6" fill="rgba(245,230,211,0.3)"/>
@@ -1019,20 +1004,14 @@
       return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
         ${defs}
         <ellipse cx="70" cy="112" rx="50" ry="5" fill="url(#cupG)" opacity="0.4"/>
-        <!-- Tall glass -->
         <path d="M40 30 L45 105 Q45 110 50 110 L90 110 Q95 110 95 105 L100 30 Z" fill="url(#glassG)" stroke="url(#cupG)" stroke-width="1"/>
-        <!-- Milk layer -->
         <path d="M43 75 L46 105 Q46 108 50 108 L90 108 Q94 108 94 105 L97 75 Z" fill="rgba(245,230,211,0.6)"/>
-        <!-- Coffee layer -->
         <path d="M42 55 L43 75 L97 75 L98 55 Z" fill="url(#coffeeG)" opacity="0.8"/>
-        <!-- Caramel drizzle -->
         <path d="M50 55 Q55 65 60 55 Q65 65 70 55 Q75 65 80 55 Q85 65 90 55" stroke="#b8865a" stroke-width="1.5" fill="none" opacity="0.8"/>
-        <!-- Whipped cream -->
         <ellipse cx="70" cy="35" rx="28" ry="8" fill="#faf3eb"/>
         <circle cx="55" cy="30" r="6" fill="#faf3eb"/>
         <circle cx="70" cy="28" r="7" fill="#faf3eb"/>
         <circle cx="85" cy="30" r="6" fill="#faf3eb"/>
-        <!-- Caramel drizzle on top -->
         <path d="M55 32 Q60 35 65 32 Q70 35 75 32 Q80 35 85 32" stroke="#b8865a" stroke-width="1" fill="none"/>
         <path d="M60 28 Q65 30 70 28 Q75 30 80 28" stroke="#b8865a" stroke-width="0.8" fill="none" opacity="0.7"/>
       </svg>`;
@@ -1041,14 +1020,10 @@
       return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
         ${defs}
         <path d="M45 20 L50 115 Q50 120 55 120 L85 120 Q90 120 90 115 L95 20 Z" fill="url(#glassG)" stroke="url(#cupG)" stroke-width="1"/>
-        <!-- Oat milk gradient -->
         <path d="M48 35 L52 115 Q52 118 55 118 L85 118 Q88 118 88 115 L92 35 Z" fill="rgba(232,201,168,0.3)"/>
-        <!-- Lavender tint -->
         <path d="M48 35 L52 115 Q52 118 55 118 L85 118 Q88 118 88 115 L92 35 Z" fill="rgba(107,39,55,0.25)"/>
-        <!-- Ice -->
         <rect x="55" y="50" width="12" height="12" rx="2" fill="rgba(245,230,211,0.3)" stroke="rgba(212,165,116,0.4)" stroke-width="0.5"/>
         <rect x="72" y="60" width="12" height="12" rx="2" fill="rgba(245,230,211,0.25)" stroke="rgba(212,165,116,0.4)" stroke-width="0.5"/>
-        <!-- Lavender sprig -->
         <line x1="70" y1="18" x2="70" y2="40" stroke="#6b2737" stroke-width="1"/>
         <circle cx="70" cy="18" r="2" fill="#6b2737"/>
         <circle cx="67" cy="22" r="1.5" fill="#6b2737"/>
@@ -1056,7 +1031,6 @@
         <circle cx="70" cy="26" r="1.5" fill="#6b2737"/>
         <circle cx="67" cy="30" r="1.5" fill="#6b2737"/>
         <circle cx="73" cy="30" r="1.5" fill="#6b2737"/>
-        <!-- Glass rim -->
         <ellipse cx="70" cy="20" rx="25" ry="4" fill="none" stroke="url(#cupG)" stroke-width="1"/>
       </svg>`;
     }
@@ -1066,20 +1040,16 @@
         <ellipse cx="70" cy="112" rx="52" ry="5" fill="url(#cupG)" opacity="0.4"/>
         <path d="M25 55 Q25 100 70 100 Q115 100 115 55 Z" fill="url(#cupG)"/>
         <path d="M115 62 Q135 62 135 80 Q135 95 115 92" stroke="url(#cupG)" stroke-width="3" fill="none"/>
-        <!-- Chocolate coffee surface -->
         <ellipse cx="70" cy="55" rx="45" ry="10" fill="#3d2b1f"/>
-        <!-- Whipped cream dollops -->
         <circle cx="55" cy="50" r="8" fill="#faf3eb"/>
         <circle cx="70" cy="48" r="9" fill="#faf3eb"/>
         <circle cx="85" cy="50" r="8" fill="#faf3eb"/>
         <circle cx="62" cy="54" r="6" fill="#faf3eb"/>
         <circle cx="78" cy="54" r="6" fill="#faf3eb"/>
-        <!-- Cocoa powder dust -->
         <circle cx="60" cy="45" r="0.8" fill="#3d2b1f" opacity="0.6"/>
         <circle cx="75" cy="43" r="0.6" fill="#3d2b1f" opacity="0.5"/>
         <circle cx="68" cy="47" r="0.7" fill="#3d2b1f" opacity="0.5"/>
         <circle cx="80" cy="46" r="0.5" fill="#3d2b1f" opacity="0.4"/>
-        <!-- Chocolate drizzle -->
         <path d="M55 42 Q60 45 65 42 Q70 45 75 42 Q80 45 85 42" stroke="#3d2b1f" stroke-width="0.8" fill="none" opacity="0.7"/>
       </svg>`;
     }
@@ -1087,13 +1057,10 @@
       return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
         ${defs}
         <ellipse cx="70" cy="108" rx="55" ry="6" fill="url(#cupG)" opacity="0.4"/>
-        <!-- Wide cup -->
         <path d="M20 55 Q20 95 70 95 Q120 95 120 55 Z" fill="url(#cupG)"/>
         <path d="M120 62 Q140 62 140 78 Q140 92 120 90" stroke="url(#cupG)" stroke-width="3" fill="none"/>
-        <!-- Microfoam surface -->
         <ellipse cx="70" cy="55" rx="50" ry="11" fill="#f5e6d3"/>
         <ellipse cx="70" cy="53" rx="47" ry="9" fill="#faf3eb"/>
-        <!-- Tulip latte art -->
         <path d="M70 45 Q60 50 55 55 Q65 53 70 57 Q75 53 85 55 Q80 50 70 45 Z" fill="rgba(107,39,55,0.35)"/>
         <path d="M70 48 Q63 52 60 55 Q67 54 70 57 Q73 54 80 55 Q77 52 70 48 Z" fill="rgba(107,39,55,0.2)"/>
         <line x1="70" y1="45" x2="70" y2="60" stroke="rgba(107,39,55,0.3)" stroke-width="0.8"/>
@@ -1103,22 +1070,17 @@
       return `<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
         ${defs}
         <ellipse cx="70" cy="110" rx="52" ry="5" fill="url(#cupG)" opacity="0.4"/>
-        <!-- Glass bowl -->
         <path d="M25 50 Q25 95 70 95 Q115 95 115 50 Z" fill="url(#glassG)" stroke="url(#cupG)" stroke-width="1"/>
-        <!-- Gelato scoop -->
         <circle cx="70" cy="55" r="22" fill="#faf3eb"/>
         <circle cx="60" cy="50" r="15" fill="#f5e6d3"/>
         <circle cx="80" cy="50" r="15" fill="#f5e6d3"/>
         <circle cx="70" cy="45" r="14" fill="#faf3eb"/>
-        <!-- Espresso pour -->
         <path d="M55 35 Q70 40 85 35 L82 55 Q70 58 58 55 Z" fill="url(#coffeeG)" opacity="0.7"/>
-        <!-- Gold leaf flakes -->
         <circle cx="65" cy="42" r="1.5" fill="#d4a574"/>
         <circle cx="75" cy="45" r="1" fill="#d4a574"/>
         <circle cx="70" cy="48" r="1.2" fill="#d4a574"/>
         <circle cx="62" cy="50" r="0.8" fill="#d4a574"/>
         <circle cx="78" cy="50" r="0.8" fill="#d4a574"/>
-        <!-- Steam from espresso -->
         <path d="M60 30 Q58 20 60 12" stroke="url(#cupG)" stroke-width="1" fill="none" opacity="0.4">
           <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.5s" repeatCount="indefinite"/>
         </path>
@@ -1213,7 +1175,7 @@
     const grid = document.getElementById('menuGrid');
     const filtered = category === 'all' ? menuItems : menuItems.filter(i => i.category === category);
     grid.innerHTML = '';
-    filtered.forEach((item, idx) => {
+    filtered.forEach((item) => {
       const card = document.createElement('div');
       card.className = 'menu-card reveal';
       card.innerHTML = `
@@ -1309,8 +1271,11 @@
     document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
   }
 
-  renderMenu('all');
-  observeElements();
+  // Initialize
+  document.addEventListener('DOMContentLoaded', function() {
+    renderMenu('all');
+    observeElements();
+  });
 </script>
 </body>
 </html>
