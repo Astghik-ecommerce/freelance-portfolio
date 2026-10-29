@@ -1,1 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOIR — Luxury Coffee House</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/fontsource/css/playfair-display@latest/latin.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/fontsource/css/inter@latest/latin.css" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  :root {
+    --gold: #c9a961;
+    --gold-light: #e8d5a3;
+    --dark: #0a0a0a;
+    --dark-2: #141414;
+    --dark-3: #1a1a1a;
+    --cream: #f5e6d3;
+    --cream-2: #faf3eb;
+    --brown: #3d2b1f;
+    --text: #e8e0d6;
+    --text-dim: #8a8078;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4%;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201,169,97,0.1);
+    transition: all 0.4s;
+  }
+  nav.scrolled { padding: 0.8rem 4%; background: rgba(10,10,10,0.95); }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 4px;
+    cursor: pointer;
+  }
+  .logo span { color: var(--cream); font-weight: 300; }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-dim); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+    transition: color 0.3s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: transparent; border: 1px solid var(--gold);
+    color: var(--gold); padding: 0.6rem 1.8rem;
+    font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+  }
+  .nav-cta:hover {
+    background: var(--gold); color: var(--dark);
+  }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+  .hamburger span { width: 25px; height: 1.5px; background: var(--gold); transition: 0.3s; }
+
+  /* HERO */
+  .hero {
+    height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background:
+      radial-gradient(ellipse at 30% 50%, rgba(201,169,97,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 30%, rgba(61,43,31,0.3) 0%, transparent 50%),
+      linear-gradient(180deg, var(--dark) 0%, var(--dark-2) 100%);
+  }
+
+  .hero-bg-art {
+    position: absolute; inset: 0; overflow: hidden; opacity: 0.06;
+  }
+  .hero-bg-art svg { width: 100%; height: 100%; }
+
+  .hero-content {
+    text-align: center; z-index: 2;
+    animation: fadeUp 1.2s ease-out;
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 2rem;
+  }
+  .hero-tag::before, .hero-tag::after {
+    content: ''; width: 40px; height: 1px; background: var(--gold); opacity: 0.5;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--gold);
+    font-weight: 400;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem; color: var(--text-dim);
+    max-width: 500px; margin: 0 auto 3rem;
+    line-height: 1.8; letter-spacing: 0.5px;
+  }
+
+  .hero-btns { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--gold); color: var(--dark);
+    border: none; padding: 1rem 2.8rem;
+    font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.4s;
+    font-family: 'Inter', sans-serif; font-weight: 600;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::before {
+    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  .btn-primary:hover::before { left: 100%; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,169,97,0.3); }
+
+  .btn-outline {
+    background: transparent; color: var(--cream);
+    border: 1px solid rgba(245,230,211,0.3); padding: 1rem 2.8rem;
+    font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.4s;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-outline:hover {
+    border-color: var(--gold); color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .scroll-indicator {
+    position: absolute; bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    animation: bounce 2s infinite;
+  }
+  .scroll-indicator span {
+    font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  /* FLOATING ELEMENTS */
+  .float-element {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,169,97,0.15), transparent);
+    animation: floatAnim 6s ease-in-out infinite;
+  }
+  .float-1 { width: 300px; height: 300px; top: 10%; left: -5%; animation-delay: 0s; }
+  .float-2 { width: 200px; height: 200px; bottom: 20%; right: -3%; animation-delay: 2s; }
+  .float-3 { width: 150px; height: 150px; top: 40%; right: 15%; animation-delay: 4s; }
+
+  /* SECTION STYLES */
+  section { padding: 7rem 4%; }
+
+  .section-header {
+    text-align: center; margin-bottom: 4rem;
+  }
+  .section-tag {
+    font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem; display: block;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300; color: var(--cream);
+    margin-bottom: 1rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .section-line {
+    width: 60px; height: 1px; background: var(--gold);
+    margin: 1.5rem auto; opacity: 0.6;
+  }
+  .section-desc {
+    color: var(--text-dim); max-width: 550px; margin: 0 auto;
+    line-height: 1.8; font-size: 0.95rem;
+  }
+
+  /* ABOUT */
+  .about {
+    background: var(--dark-2);
+    position: relative;
+  }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; max-width: 1200px; margin: 0 auto;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative; height: 500px;
+    border-radius: 4px; overflow: hidden;
+  }
+  .about-img {
+    width: 100%; height: 100%;
+    background:
+      radial-gradient(ellipse at center, rgba(201,169,97,0.15) 0%, transparent 70%),
+      linear-gradient(135deg, var(--brown) 0%, var(--dark) 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .about-img svg { width: 60%; opacity: 0.8; }
+  .about-badge {
+    position: absolute; bottom: 2rem; right: 2rem;
+    background: var(--gold); color: var(--dark);
+    padding: 1.5rem; text-align: center;
+    font-family: 'Playfair Display', serif;
+  }
+  .about-badge .num { font-size: 2.5rem; font-weight: 700; line-height: 1; }
+  .about-badge .label { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; font-family: 'Inter', sans-serif; }
+
+  .about-text h2 {
+    font-size: 2.5rem; font-weight: 300; color: var(--cream);
+    margin-bottom: 1.5rem; line-height: 1.3;
+  }
+  .about-text h2 em { font-style: italic; color: var(--gold); }
+  .about-text p {
+    color: var(--text-dim); line-height: 1.9; margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 2.5rem;
+    border-top: 1px solid rgba(201,169,97,0.15);
+    padding-top: 2.5rem;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; color: var(--gold); font-weight: 700;
+  }
+  .stat-label {
+    font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-dim); margin-top: 0.3rem;
+  }
+
+  /* MENU */
+  .menu { background: var(--dark); }
+
+  .menu-tabs {
+    display: flex; justify-content: center; gap: 0.5rem;
+    margin-bottom: 3.5rem; flex-wrap: wrap;
+  }
+  .menu-tab {
+    background: transparent; border: 1px solid rgba(201,169,97,0.2);
+    color: var(--text-dim); padding: 0.7rem 2rem;
+    font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+  }
+  .menu-tab.active, .menu-tab:hover {
+    background: var(--gold); color: var(--dark);
+    border-color: var(--gold);
+  }
+
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem; max-width: 1200px; margin: 0 auto;
+  }
+
+  .menu-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(201,169,97,0.08);
+    border-radius: 4px; overflow: hidden;
+    transition: all 0.5s; cursor: pointer;
+    position: relative;
+  }
+  .menu-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(201,169,97,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .menu-card-img {
+    height: 220px; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .menu-card-img .img-bg {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.6s;
+  }
+  .menu-card:hover .img-bg { transform: scale(1.05); }
+
+  .menu-card-img svg { width: 50%; max-width: 120px; opacity: 0.9; }
+
+  .menu-card-body { padding: 1.8rem; }
+  .menu-card-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 0.8rem;
+  }
+  .menu-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--cream); font-weight: 400;
+  }
+  .menu-card-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--gold); font-weight: 700;
+  }
+  .menu-card-desc {
+    color: var(--text-dim); font-size: 0.85rem;
+    line-height: 1.7; margin-bottom: 1.5rem;
+  }
+  .menu-card-btn {
+    width: 100%; background: transparent;
+    border: 1px solid rgba(201,169,97,0.3);
+    color: var(--gold); padding: 0.8rem;
+    font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+  }
+  .menu-card-btn:hover {
+    background: var(--gold); color: var(--dark);
+  }
+
+  .menu-tag {
+    position: absolute; top: 1rem; left: 1rem;
+    background: var(--gold); color: var(--dark);
+    padding: 0.3rem 0.8rem; font-size: 0.6rem;
+    letter-spacing: 2px; text-transform: uppercase;
+    font-weight: 600; z-index: 2;
+  }
+
+  /* FEATURES */
+  .features {
+    background: var(--dark-2);
+  }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2rem; max-width: 1200px; margin: 0 auto;
+  }
+  .feature-card {
+    text-align: center; padding: 2.5rem 1.5rem;
+    border: 1px solid rgba(201,169,97,0.08);
+    border-radius: 4px; transition: all 0.4s;
+    background: var(--dark);
+  }
+  .feature-card:hover {
+    border-color: rgba(201,169,97,0.3);
+    transform: translateY(-5px);
+  }
+  .feature-icon {
+    width: 60px; height: 60px; margin: 0 auto 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(201,169,97,0.3);
+    border-radius: 50%;
+  }
+  .feature-icon svg { width: 24px; height: 24px; }
+  .feature-card h4 {
+    font-size: 1.1rem; color: var(--cream);
+    margin-bottom: 0.8rem; font-weight: 400;
+  }
+  .feature-card p {
+    color: var(--text-dim); font-size: 0.85rem; line-height: 1.7;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--dark); }
+  .test-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem; max-width: 1100px; margin: 0 auto;
+  }
+  .test-card {
+    padding: 2.5rem;
+    border: 1px solid rgba(201,169,97,0.1);
+    border-radius: 4px;
+    background: var(--dark-2);
+    transition: all 0.4s;
+  }
+  .test-card:hover { border-color: rgba(201,169,97,0.3); }
+  .test-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 1.2rem; letter-spacing: 3px; }
+  .test-text {
+    color: var(--text); font-size: 0.95rem;
+    line-height: 1.8; margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .test-author { display: flex; align-items: center; gap: 1rem; }
+  .test-avatar {
+    width: 45px; height: 45px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--brown));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    color: var(--dark); font-weight: 700; font-size: 1.1rem;
+  }
+  .test-name { font-size: 0.9rem; color: var(--cream); }
+  .test-role { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 1px; }
+
+  /* CTA */
+  .cta {
+    background:
+      radial-gradient(ellipse at center, rgba(201,169,97,0.08) 0%, transparent 60%),
+      var(--dark-2);
+    text-align: center;
+    padding: 8rem 4%;
+  }
+  .cta h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300; color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .cta h2 em { font-style: italic; color: var(--gold); }
+  .cta p {
+    color: var(--text-dim); max-width: 500px;
+    margin: 0 auto 2.5rem; line-height: 1.8;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(201,169,97,0.1);
+    padding: 4rem 4% 2rem;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; max-width: 1200px; margin: 0 auto;
+    margin-bottom: 3rem;
+  }
+  .footer-brand .logo { margin-bottom: 1rem; display: inline-block; }
+  .footer-brand p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.8; max-width: 300px; }
+  .footer-col h4 {
+    font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem; font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+  .footer-col a {
+    display: block; color: var(--text-dim); text-decoration: none;
+    font-size: 0.85rem; margin-bottom: 0.8rem; transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom {
+    text-align: center; padding-top: 2rem;
+    border-top: 1px solid rgba(201,169,97,0.08);
+    color: var(--text-dim); font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+    display: none; align-items: center; justify-content: center;
+    animation: fadeIn 0.3s;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--dark-2);
+    border: 1px solid rgba(201,169,97,0.2);
+    border-radius: 8px; padding: 3rem;
+    max-width: 500px; width: 90%;
+    position: relative;
+    animation: slideUp 0.4s ease-out;
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: none; border: none; color: var(--text-dim);
+    font-size: 1.5rem; cursor: pointer; transition: color 0.3s;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:hover { color: var(--gold); }
+  .modal h3 {
+    font-size: 1.8rem; color: var(--cream); margin-bottom: 0.5rem;
+  }
+  .modal .modal-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .modal p { color: var(--text-dim); line-height: 1.8; margin-bottom: 2rem; font-size: 0.9rem; }
+
+  .size-options { display: flex; gap: 0.8rem; margin-bottom: 2rem; }
+  .size-btn {
+    flex: 1; padding: 0.8rem; text-align: center;
+    border: 1px solid rgba(201,169,97,0.2);
+    background: transparent; color: var(--text-dim);
+    cursor: pointer; transition: all 0.3s;
+    font-family: 'Inter', sans-serif; font-size: 0.75rem;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .size-btn.active, .size-btn:hover {
+    border-color: var(--gold); color: var(--gold);
+    background: rgba(201,169,97,0.05);
+  }
+  .size-btn .size-price { display: block; font-size: 0.85rem; margin-top: 0.3rem; color: var(--gold); }
+
+  /* NOTIFICATION */
+  .notification {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--gold); color: var(--dark);
+    padding: 1rem 2rem; border-radius: 4px;
+    font-size: 0.85rem; font-weight: 600;
+    transform: translateY(100px); opacity: 0;
+    transition: all 0.4s; z-index: 3000;
+    letter-spacing: 1px;
+  }
+  .notification.show {
+    transform: translateY(0); opacity: 1;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+  @keyframes floatAnim {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+  }
+  @keyframes steamAnim {
+    0% { opacity: 0; transform: translateY(0) scaleX(1); }
+    50% { opacity: 0.6; }
+    100% { opacity: 0; transform: translateY(-30px) scaleX(1.5); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .test-grid { grid-template-columns: 1fr; max-width: 500px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-visual { height: 350px; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.8rem; }
+    section { padding: 5rem 5%; }
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 1500;
+    background: rgba(10,10,10,0.98);
+    backdrop-filter: blur(20px);
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center; gap: 2rem;
+  }
+  .mobile-menu.active { display: flex; }
+  .mobile-menu a {
+    color: var(--cream); text-decoration: none;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-close {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: none; border: none; color: var(--gold);
+    font-size: 2rem; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="logo">NOIR<span> Coffee</span></div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#features">Experience</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <button class="nav-cta" onclick="scrollToMenu()">Order Now</button>
+  <button class="hamburger" onclick="toggleMobile()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMobile()">✕</button>
+  <a href="#home" onclick="toggleMobile()">Home</a>
+  <a href="#about" onclick="toggleMobile()">About</a>
+  <a href="#menu" onclick="toggleMobile()">Menu</a>
+  <a href="#features" onclick="toggleMobile()">Experience</a>
+  <a href="#reviews" onclick="toggleMobile()">Reviews</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="float-element float-1"></div>
+  <div class="float-element float-2"></div>
+  <div class="float-element float-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">Est. 2018 — Artisan Coffee</div>
+    <h1>The Art of<br><em>Perfect</em> Coffee</h1>
+    <p class="hero-sub">Where every cup is a masterpiece. Handcrafted with passion, sourced from the world's finest estates.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollToMenu()">Explore Menu</button>
+      <button class="btn-outline" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Our Story</button>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-img">
+        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="110" r="60" stroke="#c9a961" stroke-width="1.5" fill="rgba(201,169,97,0.05)"/>
+          <ellipse cx="100" cy="110" rx="45" ry="15" fill="rgba(201,169,97,0.15)"/>
+          <path d="M160 110 Q180 110 180 90 Q180 70 160 70" stroke="#c9a961" stroke-width="1.5" fill="none"/>
+          <path d="M85 50 Q87 35 85 20" stroke="#c9a961" stroke-width="1" opacity="0.4">
+            <animate attributeName="d" values="M85 50 Q87 35 85 20;M85 50 Q83 35 85 20;M85 50 Q87 35 85 20" dur="3s" repeatCount="indefinite"/>
+          </path>
+          <path d="M100 50 Q102 30 100 15" stroke="#c9a961" stroke-width="1" opacity="0.4">
+            <animate attributeName="d" values="M100 50 Q102 30 100 15;M100 50 Q98 30 100 15;M100 50 Q102 30 100 15" dur="2.5s" repeatCount="indefinite"/>
+          </path>
+          <path d="M115 50 Q117 35 115 20" stroke="#c9a961" stroke-width="1" opacity="0.4">
+            <animate attributeName="d" values="M115 50 Q117 35 115 20;M115 50 Q113 35 115 20;M115 50 Q117 35 115 20" dur="3.5s" repeatCount="indefinite"/>
+          </path>
+        </svg>
+      </div>
+      <div class="about-badge">
+        <div class="num">8+</div>
+        <div class="label">Years of Craft</div>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <span class="section-tag">Our Story</span>
+      <h2>Crafted with <em>Passion</em>,<br>Served with Soul</h2>
+      <p>At NOIR, we believe coffee is more than a beverage — it's an experience. Every bean is ethically sourced from single-origin estates across Ethiopia, Colombia, and Guatemala.</p>
+      <p>Our master roasters bring out the unique character of each origin, creating profiles that dance on your palate and linger in your memory.</p>
+      <div class="about-stats">
+        <div>
+          <div class="stat-num">12K+</div>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+        <div>
+          <div class="stat-num">35</div>
+          <div class="stat-label">Bean Origins</div>
+        </div>
+        <div>
+          <div class="stat-num">4.9</div>
+          <div class="stat-label">Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="section-header reveal">
+    <span class="section-tag">Our Selection</span>
+    <h2 class="section-title">The <em>Menu</em></h2>
+    <div class="section-line"></div>
+    <p class="section-desc">Each drink is a carefully composed symphony of flavors, crafted by our expert baristas.</p>
+  </div>
+
+  <div class="menu-tabs reveal">
+    <button class="menu-tab active" onclick="filterMenu('all', this)">All</button>
+    <button class="menu-tab" onclick="filterMenu('hot', this)">Hot</button>
+    <button class="menu-tab" onclick="filterMenu('cold', this)">Cold</button>
+    <button class="menu-tab" onclick="filterMenu('special', this)">Specials</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid">
+    <!-- Cards inserted by JS -->
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-header reveal">
+    <span class="section-tag">Why Choose Us</span>
+    <h2 class="section-title">The <em>NOIR</em> Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c9a961" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <h4>Single Origin</h4>
+      <p>Ethically sourced beans from the world's most prestigious coffee estates.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c9a961" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <h4>Fresh Roasted</h4>
+      <p>Beans roasted in small batches daily for peak freshness and flavor.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c9a961" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <h4>Made with Love</h4>
+      <p>Every cup is handcrafted by our passionate team of expert baristas.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c9a961" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h4>Premium Quality</h4>
+      <p>Award-winning blends recognized by the international coffee community.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="reviews">
+  <div class="section-header reveal">
+    <span class="section-tag">Testimonials</span>
+    <h2 class="section-title">What Our <em>Guests</em> Say</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="test-grid">
+    <div class="test-card reveal">
+      <div class="test-stars">★ ★ ★ ★ ★</div>
+      <p class="test-text">"The best coffee I've ever had. The atmosphere is pure luxury and the baristas are true artists. NOIR has ruined all other coffee for me."</p>
+      <div class="test-author">
+        <div class="test-avatar">S</div>
+        <div>
+          <div class="test-name">Sophia Laurent</div>
+          <div class="test-role">Food Critic</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card reveal">
+      <div class="test-stars">★ ★ ★ ★ ★</div>
+      <p class="test-text">"I come here every morning before work. The Gold Reserve espresso is transcendent. Worth every penny of the premium experience."</p>
+      <div class="test-author">
+        <div class="test-avatar">M</div>
+        <div>
+          <div class="test-name">Marcus Chen</div>
+          <div class="test-role">Regular Guest</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card reveal">
+      <div class="test-stars">★ ★ ★ ★ ★</div>
+      <p class="test-text">"From the interior design to the latte art, everything about NOIR screams perfection. This is what a coffee house should aspire to be."</p>
+      <div class="test-author">
+        <div class="test-avatar">E</div>
+        <div>
+          <div class="test-name">Elena Rossi</div>
+          <div class="test-role">Interior Designer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="reveal">
+    <span class="section-tag">Visit Us Today</span>
+    <h2>Begin Your <em>Coffee</em><br>Journey</h2>
+    <p>Step into a world where every detail matters. Your perfect cup awaits at NOIR.</p>
+    <div class="hero-btns" style="justify-content:center;">
+      <button class="btn-primary" onclick="scrollToMenu()">Order Now</button>
+      <button class="btn-outline" onclick="showNotification('📍 123 Elegance Ave, Downtown — Open 7AM-10PM')">Find Us</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">NOIR<span> Coffee</span></div>
+      <p>Where luxury meets craftsmanship. Every cup tells a story of passion, precision, and the world's finest beans.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#reviews">Reviews</a>
+    </div>
+    <div class="footer-col">
+      <h4>Hours</h4>
+      <a href="javascript:void(0)">Mon-Fri: 7AM - 10PM</a>
+      <a href="javascript:void(0)">Saturday: 8AM - 11PM</a>
+      <a href="javascript:void(0)">Sunday: 8AM - 9PM</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="javascript:void(0)">hello@noircoffee.com</a>
+      <a href="javascript:void(0)">+1 (555) 234-5678</a>
+      <a href="javascript:void(0)">123 Elegance Ave</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 NOIR Coffee House. All rights reserved. Crafted with ♥ and caffeine.
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <h3 id="modalName"></h3>
+    <div class="modal-price" id="modalPrice"></div>
+    <p id="modalDesc"></p>
+    <div class="size-options">
+      <button class="size-btn active" onclick="selectSize(this, 0)">Small<span class="size-price" id="sizeS"></span></button>
+      <button class="size-btn" onclick="selectSize(this, 1)">Medium<span class="size-price" id="sizeM"></span></button>
+      <button class="size-btn" onclick="selectSize(this, 2)">Large<span class="size-price" id="sizeL"></span></button>
+    </div>
+    <button class="btn-primary" style="width:100%;" onclick="addToOrder()">Add to Order</button>
+  </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notification" id="notification"></div>
+
+<script>
+  // Menu Data
+  const menuItems = [
+    {
+      name: "Gold Reserve Espresso",
+      price: 6.50,
+      desc: "Our signature double-shot espresso with notes of dark chocolate, caramel, and a whisper of smoked oak.",
+      category: "hot",
+      tag: "Signature",
+      color1: "#2a1810", color2: "#0a0a0a",
+      svg: `<svg viewBox="0 0 120 120" fill="none"><rect x="25" y="45" width="50" height="45" rx="4" stroke="#c9a961" stroke-width="1.5" fill="rgba(201,169,97,0.08)"/><ellipse cx="50" cy="48" rx="22" ry="6" fill="rgba(201,169,97,0.2)"/><path d="M75 55 Q90 55 90 68 Q90 80 75 80" stroke="#c9a961" stroke-width="1.5" fill="none"/><path d="M40 35 Q42 25 40 15" stroke="#c9a961" stroke-width="0.8" opacity="0.5"><animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" repeatCount="indefinite"/></path><path d="M50 35 Q52 22 50 12" stroke="#c9a961" stroke-width="0.8" opacity="0.5"><animate attributeName="opacity" values="0.3;0.6;0.3" dur="2.5s" repeatCount="indefinite"/></path><path d="M60 35 Q62 25 60 15" stroke="#c9a961" stroke-width="0.8" opacity="0.5"><animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/></path></svg>`
+    },
+    {
+      name: "Velvet Cappuccino",
+      price: 7.00,
+      desc: "Silky microfoam meets our house espresso, crowned with hand-poured latte art and a dusting of cocoa.",
+      category: "hot",
+      tag: "Popular",
+      color1: "#1a1208", color2: "#0d0d0d",
+      svg: `<svg viewBox="0 0 120 120" fill="none"><path d="M25 50 Q25 85 50 85 Q75 85 75 50" stroke="#c9a961" stroke-width="1.5" fill="rgba(201,169,97,0.06)"/><ellipse cx="50" cy="50" rx="25" ry="8" fill="rgba(245,230,211,0.15)" stroke="#c9a961" stroke-width="1"/><path d="M42 48 Q50 42 58 48" stroke="#c9a961" stroke-width="0.8" opacity="0.6"/><circle cx="50" cy="47" r="3" fill="rgba(201,169,97,0.2)"/></svg>`
+    },
+    {
+      name: "Noir Cold Brew",
+      price: 7.50,
+      desc: "Steeped for 24 hours in cold spring water. Incredibly smooth with hints of brown sugar and vanilla bean.",
+      category: "cold",
+      tag: "",
+      color1: "#0d1520", color2: "#0a0a0a",
+      svg: `<svg viewBox="0 0 120 120" fill="none"><rect x="35" y="25" width="35" height="70" rx="3" stroke="#c9a961" stroke-width="1.5" fill="rgba(201,169,97,0.05)"/><rect x="38" y="40" width="29" height="50" rx="2" fill="rgba(201,169,97,0.12)"/><rect x="42" y="50" width="8" height="8" rx="1" fill="rgba(245,230,211,0.15)" stroke="#c9a961" stroke-width="0.5"/><rect x="52" y="55" width="8" height="8" rx="1" fill="rgba(245,230,211,0.1)" stroke="#c9a961" stroke-width="0.5"/><line x1="35" y1="35" x2="70" y2="35" stroke="#c9a961" stroke-width="0.8" opacity="0.4"/></svg>`
+    },
+    {
+      name: "Caramel Macchiato",
+      price: 8.00,
+      desc: "Layers of vanilla-infused milk, espresso, and our house-made salted caramel. A decadent indulgence.",
+      category: "hot",
+      tag: "Chef's Pick",
+      color1: "#1f1508", color2: "#0a0a0a",
+      svg: `<svg viewBox="0 0 120 120" fill="none"><path d="M30 40 L30 85 Q30 90 35 90 L65 90 Q70 90 70 85 L70 40" stroke="#c9a961" stroke-width="1.5" fill="rgba(201,169,97,0.06)"/><ellipse cx="50" cy="40" rx="20" ry="6" fill="rgba(245,230,211,0.2)" stroke="#c9a961" stroke-width="1"/><path d="M35 55 Q50 50 65 55" stroke="rgba(201,169,97,0.4)" stroke-width="0.8"/><path d="M35 65 Q50 60 65 65" stroke="rgba(201,169,97,0.3)" stroke-width="0.8"/><path d="M35 75 Q50 70 65 75" stroke="rgba(201,169,97,0.2)" stroke-width="0.8"/></svg>`
+    },
+    {
+      name: "Iced Lavender Latte",
+      price: 8.50,
+      desc: "French lavender syrup, oat milk, and espresso over ice. A floral masterpiece for the adventurous soul.",
+      category: "cold",
+      tag: "New",
+      color1: "#15101f", color2: "#0a0a0a",
+      svg: `<svg viewBox="0 0 120 120" fill="none"><path d="M35 30 L38 90 Q38 93 42 93 L58 93 Q62 93 62 90 L65 30" stroke="#c9a961" stroke-width="1.5" fill="rgba(201,169,97,0.05)"/><rect x="40" y="45" width="20" height="40" rx="2" fill="rgba(201,169,97,0.1)"/><circle cx="50" cy="38" r="8" fill="rgba(201,169,97,0.08)" stroke="#c9a961" stroke-width="0.8"/><circle cx="50" cy="38" r="3" fill="rgba(201,169,97,0.2)"/></svg>`
+    },
+    {
+      name: "Dark Chocolate Mocha",
+      price: 8.50,
+      desc: "Belgian dark chocolate melted into steamed milk and espresso, topped with whipped cream and cocoa dust.",
+      category: "special",
+      tag: "Indulgent",
+      color1: "#1a0d0d", color2: "#0a0a0a",
+      svg: `<svg viewBox="0 0 120 120" fill="none"><path d="M28 45 Q28 85 50 85 Q72 85 72 45" stroke="#c9a961" stroke-width="1.5" fill="rgba(201,169,97,0.06)"/><ellipse cx="50" cy="45" rx="22" ry="7" fill="rgba(245,230,211,0.15)" stroke="#c9a961" stroke-width="1"/><circle cx="42" cy="40" r="4" fill="rgba(245,230,211,0.1)" stroke="#c9a961" stroke-width="0.5"/><circle cx="55" cy="38" r="5" fill="rgba(245,230,211,0.1)" stroke="#c9a961" stroke-width="0.5"/><circle cx="50" cy="43" r="3" fill="rgba(245,230,211,0.08)" stroke="#c9a961" stroke-width="0.5"/></svg>`
+    },
+    {
+      name: "Flat White",
+      price: 6.00,
+      desc: "Double ristretto with velvety steamed milk. The perfect balance of strength and smoothness.",
+      category: "hot",
+      tag: "",
+      color1: "#1a1510", color2: "#0a0a0a",
+      svg: `<svg viewBox="0 0 120 120" fill="none"><path d="M25 55 Q25 80 50 80 Q75 80 75 55" stroke="#c9a961" stroke-width="1.5" fill="rgba(201,169,97,0.06)"/><ellipse cx="50" cy="55" rx="25" ry="8" fill="rgba(245,230,211,0.12)" stroke="#c9a961" stroke-width="1"/><path d="M40 53 Q45 49 50 53 Q55 49 60 53" stroke="#c9a961" stroke-width="0.8" opacity="0.5"/></svg>`
+    },
+    {
+      name: "Affogato Royale",
+      price: 9.50,
+      desc: "Artisan vanilla gelato drowned in a shot of our hottest espresso. Topped with gold leaf flakes.",
+      category: "special",
+      tag: "Premium",
+      color1: "#1a1508", color2: "#0a0a0a",
+      svg: `<svg viewBox="0 0 120 120" fill="none"><path d="M30 50 Q30 80 50 80 Q70 80 70 50" stroke="#c9a961" stroke-width="1.5" fill="rgba(201,169,97,0.06)"/><ellipse cx="50" cy="50" rx="20" ry="7" fill="rgba(245,230,211,0.1)" stroke="#c9a961" stroke-width="1"/><circle cx="50" cy="45" r="10" fill="rgba(245,230,211,0.15)" stroke="#c9a961" stroke-width="0.8"/><circle cx="47" cy="42" r="2" fill="rgba(201,169,97,0.4)"/><circle cx="53" cy="44" r="1.5" fill="rgba(201,169,97,0.3)"/></svg>`
+    }
+  ];
+
+  let currentCategory = 'all';
+  let currentItem = null;
+  let currentSize = 0;
+
+  // Render menu
+  function renderMenu(category) {
+    const grid = document.getElementById('menuGrid');
+    const filtered = category === 'all' ? menuItems : menuItems.filter(i => i.category === category);
+    grid.innerHTML = '';
+    filtered.forEach((item, idx) => {
+      const card = document.createElement('div');
+      card.className = 'menu-card reveal';
+      card.style.animationDelay = `${idx * 0.1}s`;
+      card.innerHTML = `
+        ${item.tag ? `<div class="menu-tag">${item.tag}</div>` : ''}
+        <div class="menu-card-img">
+          <div class="img-bg" style="background: radial-gradient(ellipse at center, ${item.color1} 0%, ${item.color2} 100%);">
+            ${item.svg}
+          </div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-top">
+            <div class="menu-card-name">${item.name}</div>
+            <div class="menu-card-price">$${item.price.toFixed(2)}</div>
+          </div>
+          <div class="menu-card-desc">${item.desc}</div>
+          <button class="menu-card-btn" onclick="openModal(${menuItems.indexOf(item)})">Order Now</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+    observeElements();
+  }
+
+  function filterMenu(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderMenu(cat);
+  }
+
+  // Modal
+  function openModal(idx) {
+    currentItem = menuItems[idx];
+    document.getElementById('modalName').textContent = currentItem.name;
+    document.getElementById('modalPrice').textContent = `$${currentItem.price.toFixed(2)}`;
+    document.getElementById('modalDesc').textContent = currentItem.desc;
+    document.getElementById('sizeS').textContent = `$${currentItem.price.toFixed(2)}`;
+    document.getElementById('sizeM').textContent = `$${(currentItem.price + 1).toFixed(2)}`;
+    document.getElementById('sizeL').textContent = `$${(currentItem.price + 2).toFixed(2)}`;
+    currentSize = 0;
+    document.querySelectorAll('.size-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+  }
+  function closeModalDirect() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function selectSize(btn, idx) {
+    currentSize = idx;
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const price = currentItem.price + idx;
+    document.getElementById('modalPrice').textContent = `$${price.toFixed(2)}`;
+  }
+
+  function addToOrder() {
+    const sizes = ['Small', 'Medium', 'Large'];
+    const price = currentItem.price + currentSize;
+    closeModalDirect();
+    showNotification(`✓ ${sizes[currentSize]} ${currentItem.name} added — $${price.toFixed(2)}`);
+  }
+
+  // Notification
+  function showNotification(msg) {
+    const n = document.getElementById('notification');
+    n.textContent = msg;
+    n.classList.add('show');
+    setTimeout(() => n.classList.remove('show'), 3000);
+  }
+
+  // Scroll
+  function scrollToMenu() {
+    document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Mobile menu
+  function toggleMobile() {
+    document.getElementById('mobileMenu').classList.toggle('active');
+  }
+
+  // Reveal on scroll
+  function observeElements() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el));
+  }
+
+  // Init
+  renderMenu('all');
+  observeElements();
+</script>
+</body>
+</html>
